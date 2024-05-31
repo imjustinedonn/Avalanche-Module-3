@@ -6,12 +6,16 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract JustineToken is ERC20, Ownable {
     constructor() ERC20("JustineToken", "JTN") Ownable(msg.sender) {
-
         _mint(msg.sender, 1000 * 10 ** decimals());
     }
 
     function mint(address to, uint256 amount) public onlyOwner {
         _mint(to, amount);
+    }
+
+    function transfer(address to, uint256 amount) public virtual override returns (bool) {
+        _transfer(_msgSender(), to, amount);
+        return true;
     }
 
     function burn(uint256 amount) public {
@@ -25,3 +29,4 @@ contract JustineToken is ERC20, Ownable {
         _burn(from, amount);
     }
 }
+
